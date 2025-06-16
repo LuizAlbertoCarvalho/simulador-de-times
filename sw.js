@@ -1,9 +1,9 @@
-const CACHE_NAME = 'team-simulator-cache-v1.2'; // Increment version
+const CACHE_NAME = 'team-simulator-cache-v1.3'; // Increment version
 const urlsToCache = [
   './', // Represents the root of the subdirectory (e.g., /repo-name/)
   './index.html',
   './index.css',
-  './index.tsx', // Or the transpiled .js file (e.g., ./index.js)
+  './index.js', // Changed from index.tsx to index.js
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
@@ -72,7 +72,13 @@ self.addEventListener('fetch', event => {
             if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
               // Check if the request is for one of the URLs we intend to cache to avoid caching unintended resources.
               // A more robust check might involve comparing against the urlsToCache array or specific patterns.
-              const shouldCache = urlsToCache.some(urlToCache => event.request.url.endsWith(urlToCache.substring(1))); // substring(1) to remove leading './'
+              const requestUrlString = event.request.url;
+              const shouldCache = urlsToCache.some(urlToCache => {
+                // Adjust for relative paths by ensuring the request URL ends with the relevant part of urlToCache
+                const cleanUrlToCache = urlToCache.startsWith('./') ? urlToCache.substring(2) : urlToCache;
+                return requestUrlString.endsWith(cleanUrlToCache);
+              });
+
               if (shouldCache) {
                 const responseToCache = networkResponse.clone();
                 caches.open(CACHE_NAME)
