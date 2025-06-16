@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Times</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#1a73e8">
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Times</h1>
+
+        <div class="grid-container">
+            <div class="input-column">
+                <div class="form-group">
+                    <label for="playerNames">Jogadores (um por linha):</label>
+                    <textarea id="playerNames" rows="10" placeholder="Ana Silva&#10;Bruno Costa&#10;Carlos Dias&#10;Diana Moreira&#10;Eduardo Lima" aria-label="Lista de nomes de jogadores"></textarea>
+                </div>
+            </div>
+
+            <div class="config-column">
+                <div class="form-group">
+                    <label for="numTeams">Número de Times:</label>
+                    <input type="number" id="numTeams" min="1" value="2" aria-label="Número de times a serem sorteados">
+                </div>
+
+                <div class="form-group">
+                    <label for="playersPerTeam">Jogadores por Time:</label>
+                    <input type="number" id="playersPerTeam" min="1" value="3" aria-label="Número de jogadores por time">
+                </div>
+            </div>
+
+            <div class="input-column">
+                <div class="form-group">
+                    <label for="leaderNames">Líderes (um por linha, devem estar na lista de jogadores):</label>
+                    <textarea id="leaderNames" rows="5" placeholder="Ana Silva&#10;Carlos Dias" aria-label="Lista de nomes dos líderes"></textarea>
+                </div>
+            </div>
+
+            <div class="input-column">
+                <div class="form-group">
+                    <label for="femalePlayerNames">Mulheres (uma por linha, devem estar na lista de jogadores):</label>
+                    <textarea id="femalePlayerNames" rows="5" placeholder="Ana Silva&#10;Diana Moreira" aria-label="Lista de nomes das jogadoras mulheres"></textarea>
+                </div>
+            </div>
+
+            <div class="action-column">
+                <button id="generateButton" aria-label="Gerar Times">Gerar Times</button>
+            </div>
+            
+            <div class="results-column">
+                <h2>Times Gerados:</h2>
+                <div id="errorMessages" class="error-messages" aria-live="assertive" role="alert"></div>
+                <div id="results" class="results-display" aria-live="polite">
+                    <p>Os times aparecerão aqui após o sorteio.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="index.tsx"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Use relative path for sw.js
+                navigator.serviceWorker.register('./sw.js') 
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
